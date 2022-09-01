@@ -40,4 +40,5 @@ def match(sales_output_file, twenty_six_as_output_file, output_file):
             df = pd.DataFrame(dict)
             matched_df = pd.concat([matched_df, df], ignore_index=True)
     matched_df.to_csv(output_file, sep='\t')
-    print('Results exported to txt file')
+    matched_df.to_html(output_file + '.html')
+    print('Results exported to file')
