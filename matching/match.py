@@ -36,7 +36,7 @@ def match(sales_output_file, twenty_six_as_output_file, output_file):
         b_identifier = b_row['tan']
         if m.iloc[i]['score_0'] > 50.0:
             dict = {'sales_name': [m.iloc[i]['original_name']], 'gstin': [a.iloc[i]['gstin']],
-                    '26as_name': [b_company_name], 'tan': [b_identifier]}
+                    '26as_name': [b_company_name], 'tan': [b_identifier], 'pan': [a.iloc[i]['gstin'][2:12]]}
             df = pd.DataFrame(dict)
             matched_df = pd.concat([matched_df, df], ignore_index=True)
     matched_df.to_csv(output_file, sep='\t')
