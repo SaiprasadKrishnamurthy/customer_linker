@@ -11,6 +11,10 @@ __pycache__/
 26as/*.txt
 sales/*.txt
 
+gstins_to_legal_names.txt
+legal_names_to_tans.txt
+matches.txt
+
 # Distribution / packaging
 .Python
 build/
