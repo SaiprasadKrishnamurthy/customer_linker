@@ -35,9 +35,11 @@ def match(sales_output_file, twenty_six_as_output_file, output_file):
         b_company_name = b_row['26as_name']
         b_identifier = b_row['tan']
         if m.iloc[i]['score_0'] > 50.0:
-            dict = {'sales_name': [m.iloc[i]['original_name']], 'gstin': [a.iloc[i]['gstin']],
-                    '26as_name': [b_company_name], 'tan': [b_identifier], 'pan': [a.iloc[i]['gstin'][2:12]]}
-            df = pd.DataFrame(dict)
+            row = {'sales_name': [m.iloc[i]['original_name']], 'gstin': [a.iloc[i]['gstin']],
+                   '26as_name': [b_company_name], 'tan': [b_identifier], 'pan': [a.iloc[i]['gstin'][2:12]],
+                   'trade_name': [a.iloc[i]['trade_name']],
+                   'location': [a.iloc[i]['location']]}
+            df = pd.DataFrame(row)
             matched_df = pd.concat([matched_df, df], ignore_index=True)
     matched_df.to_csv(output_file, sep='\t')
     matched_df.to_html(output_file + '.html')

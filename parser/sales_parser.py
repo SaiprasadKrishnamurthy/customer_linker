@@ -36,12 +36,14 @@ def parse_sales(folder, sales_out_file, api_key):
                                 gst_ins.add(part.strip())
                                 json = get_legal_name(part.strip(), api_key)
                                 if 'legal-name' in json:
-                                    gstin_to_legal_names.append((part.strip(), json['legal-name']))
+                                    gstin_to_legal_names.append(
+                                        (part.strip(), json['legal-name'], json['trade-name'],
+                                         f"{json['adress']['city']} {json['adress']['pincode']} {json['adress']['state']}"))
                     index += 1
                     line = fp.readline()
     with open(sales_out_file, 'w') as f:
-        f.write('gstin\tsales_name\n')
+        f.write('gstin\tsales_name\ttrade_name\tlocation\n')
         for obj in gstin_to_legal_names:
-            f.write(f'{obj[0]}\t{obj[1]}\n')
+            f.write(f'{obj[0]}\t{obj[1]}\t{obj[2]}\t{obj[3]}\n')
 
     print(f"Extracted all GSTINs From Sales Files to {sales_out_file}")
