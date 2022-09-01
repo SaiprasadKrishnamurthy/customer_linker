@@ -18,10 +18,9 @@ sales_out_file = os.path.abspath('gstins_to_legal_names.txt')
 twenty_six_as_out_file = os.path.abspath('legal_names_to_tans.txt')
 match_out_file = os.path.abspath('matches.txt')
 
-
 api_key = input('What is your GST API Key? ')
 
-
+print('Processing .... ')
 parse_sales(salesDir, sales_out_file, api_key)
 parse_26as(twSixAsDir, twenty_six_as_out_file)
 match(sales_out_file, twenty_six_as_out_file, match_out_file)

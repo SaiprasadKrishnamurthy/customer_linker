@@ -30,17 +30,38 @@ def match(sales_output_file, twenty_six_as_output_file, output_file):
 
     matched_df = pd.DataFrame(columns=["sales_name", "gstin", "26as_name", "tan"])
 
+    matched_tans = set()
     for i in range(0, len(m)):
         b_row = b.iloc[int(m.iloc[i]['match_index_0'])]
-        b_company_name = b_row['26as_name']
+        b_company_name = str(b_row['26as_name']).upper()
         b_identifier = b_row['tan']
-        if m.iloc[i]['score_0'] > 50.0:
-            row = {'sales_name': [m.iloc[i]['original_name']], 'gstin': [a.iloc[i]['gstin']],
+        if m.iloc[i]['score_0'] > 95.0:
+            row = {'sales_name': [str(m.iloc[i]['original_name']).upper()], 'gstin': [a.iloc[i]['gstin']],
                    '26as_name': [b_company_name], 'tan': [b_identifier], 'pan': [a.iloc[i]['gstin'][2:12]],
-                   'trade_name': [a.iloc[i]['trade_name']],
+                   'trade_name': [str(a.iloc[i]['trade_name']).upper()],
                    'location': [a.iloc[i]['location']]}
             df = pd.DataFrame(row)
             matched_df = pd.concat([matched_df, df], ignore_index=True)
+            matched_tans.add(b_identifier)
+        else:
+            row = {'sales_name': [str(a.iloc[i]['sales_name']).upper()], 'gstin': [a.iloc[i]['gstin']],
+                   '26as_name': '-', 'tan': '-', 'pan': [a.iloc[i]['gstin'][2:12]],
+                   'trade_name': [str(a.iloc[i]['trade_name']).upper()],
+                   'location': [a.iloc[i]['location']]}
+            df = pd.DataFrame(row)
+            matched_df = pd.concat([matched_df, df], ignore_index=True)
+
+    for r in b.itertuples():
+        tan = str(r[2]).strip()
+        legal_name = str(r[1]).strip()
+        if tan not in matched_tans:
+            row = {'sales_name': '-', 'gstin': '-',
+                   '26as_name': [str(legal_name).upper()], 'tan': [tan], 'pan': '-',
+                   'trade_name': '-',
+                   'location': '-'}
+            df = pd.DataFrame(row)
+            matched_df = pd.concat([matched_df, df], ignore_index=True)
+
     matched_df.to_csv(output_file, sep='\t')
     matched_df.to_html(output_file + '.html')
     print('Results exported to file')
