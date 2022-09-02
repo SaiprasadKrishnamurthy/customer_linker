@@ -62,6 +62,10 @@ def match(sales_output_file, twenty_six_as_output_file, output_file):
             df = pd.DataFrame(row)
             matched_df = pd.concat([matched_df, df], ignore_index=True)
 
+    customers_in_26as = len(b)
+    matched_in_26as = len(matched_tans)
+    matched_26as_percentage = (float(matched_in_26as) / float(customers_in_26as)) * 100.0
+    print("26AS to SalesBook Match Percentage: {:.1f}%".format(matched_26as_percentage))
     matched_df.to_csv(output_file, sep='\t')
     matched_df.to_html(output_file + '.html')
     print('Results exported to file')
