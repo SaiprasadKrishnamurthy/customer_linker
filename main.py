@@ -20,7 +20,7 @@ match_out_file = os.path.abspath('matches.txt')
 
 api_key = input('What is your GST API Key? ')
 
-print('Processing .... ')
+print('-- Processing.... ')
 parse_sales(salesDir, sales_out_file, api_key)
 parse_26as(twSixAsDir, twenty_six_as_out_file)
 match(sales_out_file, twenty_six_as_out_file, match_out_file)
